@@ -7,7 +7,13 @@
 create extension if not exists "uuid-ossp";
 
 -- Enum de papéis
-create type user_role as enum ('admin', 'teacher', 'student', 'parent');
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'user_role') THEN
+        CREATE TYPE user_role AS ENUM ('admin', 'teacher', 'student', 'parent');
+    END IF;
+END
+$$;
 
 -- Tabela de perfis vinculada ao auth.users
 create table if not exists public.profiles (
@@ -112,6 +118,8 @@ begin
   return new;
 end;
 $$;
+
+drop trigger if exists profiles_updated_at on public.profiles;
 
 create trigger profiles_updated_at
   before update on public.profiles
