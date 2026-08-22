@@ -1,0 +1,138 @@
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: var(--surface);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(16, 123, 119, 0.05);
+}
+
+header h1 {
+  margin-bottom: 0;
+  color: var(--button-action);
+  font-size: 1.5rem;
+}
+
+main {
+  flex: 1;
+  padding: 40px;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+.biometric-button {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 36px rgba(16, 123, 119, 0.2);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 4px solid var(--button-action);
+  color: var(--button-action);
+}
+
+.biometric-button:hover {
+  transform: scale(1.05);
+  background-color: var(--button-action);
+  color: var(--surface);
+}
+
+.biometric-button svg {
+  margin-bottom: 15px;
+}
+
+.student-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.module-card {
+  background-color: var(--surface);
+  border-radius: var(--border-radius);
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(16, 123, 119, 0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.module-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(16, 123, 119, 0.15);
+}
+
+.module-icon {
+  background-color: var(--background);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: var(--button-action);
+}
+
+.game-stats {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.stat-badge {
+  background-color: var(--surface);
+  padding: 10px 20px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-main);
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(16, 123, 119, 0.05);
+}
+
+.teacher-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.report-card {
+  background-color: var(--surface);
+  padding: 30px;
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(16, 123, 119, 0.1);
+}
+
+.ai-insight {
+  background-color: rgba(86, 216, 208, 0.2);
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 15px;
+  border-left: 5px solid var(--button-action);
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
