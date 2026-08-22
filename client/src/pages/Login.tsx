@@ -9,6 +9,8 @@ const Login = () => {
   const { user } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
   const redirectByRole = async (userId: string) => {
