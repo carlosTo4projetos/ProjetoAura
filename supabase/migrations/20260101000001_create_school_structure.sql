@@ -14,10 +14,12 @@ create table if not exists public.schools (
 
 alter table public.schools enable row level security;
 
+DROP POLICY IF EXISTS "schools: todos autenticados leem" ON public.schools;
 create policy "schools: todos autenticados leem"
   on public.schools for select
   using (auth.uid() is not null);
 
+DROP POLICY IF EXISTS "schools: somente admin cria/edita" ON public.schools;
 create policy "schools: somente admin cria/edita"
   on public.schools for all
   using (
@@ -37,6 +39,7 @@ create table if not exists public.classes (
 
 alter table public.classes enable row level security;
 
+DROP POLICY IF EXISTS "classes: professor e admin leem" ON public.classes;
 create policy "classes: professor e admin leem"
   on public.classes for select
   using (
@@ -58,10 +61,12 @@ create table if not exists public.class_students (
 
 alter table public.class_students enable row level security;
 
+DROP POLICY IF EXISTS "class_students: aluno vê as próprias turmas" ON public.class_students;
 create policy "class_students: aluno vê as próprias turmas"
   on public.class_students for select
   using (student_id = auth.uid());
 
+DROP POLICY IF EXISTS "class_students: professor e admin veem todos" ON public.class_students;
 create policy "class_students: professor e admin veem todos"
   on public.class_students for select
   using (
@@ -84,10 +89,12 @@ create table if not exists public.subjects (
 
 alter table public.subjects enable row level security;
 
+DROP POLICY IF EXISTS "subjects: todos autenticados leem" ON public.subjects;
 create policy "subjects: todos autenticados leem"
   on public.subjects for select
   using (auth.uid() is not null);
 
+DROP POLICY IF EXISTS "subjects: admin e professor criam/editam" ON public.subjects;
 create policy "subjects: admin e professor criam/editam"
   on public.subjects for all
   using (
@@ -124,10 +131,12 @@ create table if not exists public.modules (
 
 alter table public.modules enable row level security;
 
+DROP POLICY IF EXISTS "modules: todos autenticados leem" ON public.modules;
 create policy "modules: todos autenticados leem"
   on public.modules for select
   using (auth.uid() is not null);
 
+DROP POLICY IF EXISTS "modules: admin e professor criam/editam" ON public.modules;
 create policy "modules: admin e professor criam/editam"
   on public.modules for all
   using (

@@ -112,11 +112,6 @@ const Login = () => {
     setLoading(false);
   };
 
-  const handleQuickDemoLogin = () => {
-    // Acesso demonstrativo direto sem precisar de senha
-    navigate('/student');
-  };
-
   return (
     <div className="login-container fade-in">
       <div className="bg-shape-1"></div>
@@ -196,13 +191,6 @@ const Login = () => {
             Criar conta de teste
           </button>
 
-          <button 
-            type="button"
-            onClick={handleQuickDemoLogin}
-            style={{ backgroundColor: 'white', color: 'var(--button-action)', border: 'none', padding: '10px 30px', borderRadius: '30px', fontWeight: 700, boxShadow: '0 5px 15px rgba(0,0,0,0.15)', cursor: 'pointer', width: '100%' }}
-          >
-            Entrar no Modo Demonstração
-          </button>
         </div>
 
       </div>
