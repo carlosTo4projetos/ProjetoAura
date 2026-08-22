@@ -52,10 +52,7 @@ create policy "pia: aluno atualiza preferências"
 create policy "pia: professor e admin leem todos"
   on public.pia for select
   using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role in ('admin', 'teacher')
-    )
+    public.get_user_role() in ('admin', 'teacher')
   );
 
 -- Sistema (service role) pode inserir e atualizar
@@ -104,10 +101,7 @@ create policy "interactions: aluno lê as próprias"
 create policy "interactions: professor e admin leem todas"
   on public.interactions for select
   using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role in ('admin', 'teacher')
-    )
+    public.get_user_role() in ('admin', 'teacher')
   );
 
 -- =============================================
@@ -140,10 +134,7 @@ create policy "activities: todos autenticados leem"
 create policy "activities: admin e professor criam/editam"
   on public.activities for all
   using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role in ('admin', 'teacher')
-    )
+    public.get_user_role() in ('admin', 'teacher')
   );
 
 -- =============================================
@@ -178,10 +169,7 @@ create policy "progress: aluno atualiza o próprio"
 create policy "progress: professor e admin leem todos"
   on public.student_progress for select
   using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role in ('admin', 'teacher')
-    )
+    public.get_user_role() in ('admin', 'teacher')
   );
 
 create trigger student_progress_updated_at

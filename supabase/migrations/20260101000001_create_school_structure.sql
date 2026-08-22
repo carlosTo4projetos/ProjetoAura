@@ -23,7 +23,7 @@ DROP POLICY IF EXISTS "schools: somente admin cria/edita" ON public.schools;
 create policy "schools: somente admin cria/edita"
   on public.schools for all
   using (
-    exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
+    public.get_user_role() = 'admin'
   );
 
 -- =============================================
@@ -43,10 +43,7 @@ DROP POLICY IF EXISTS "classes: professor e admin leem" ON public.classes;
 create policy "classes: professor e admin leem"
   on public.classes for select
   using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role in ('admin', 'teacher')
-    )
+    public.get_user_role() in ('admin', 'teacher')
   );
 
 -- =============================================
@@ -70,10 +67,7 @@ DROP POLICY IF EXISTS "class_students: professor e admin veem todos" ON public.c
 create policy "class_students: professor e admin veem todos"
   on public.class_students for select
   using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role in ('admin', 'teacher')
-    )
+    public.get_user_role() in ('admin', 'teacher')
   );
 
 -- =============================================
@@ -98,10 +92,7 @@ DROP POLICY IF EXISTS "subjects: admin e professor criam/editam" ON public.subje
 create policy "subjects: admin e professor criam/editam"
   on public.subjects for all
   using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role in ('admin', 'teacher')
-    )
+    public.get_user_role() in ('admin', 'teacher')
   );
 
 -- Seed de disciplinas iniciais (Administração)
@@ -140,8 +131,5 @@ DROP POLICY IF EXISTS "modules: admin e professor criam/editam" ON public.module
 create policy "modules: admin e professor criam/editam"
   on public.modules for all
   using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role in ('admin', 'teacher')
-    )
+    public.get_user_role() in ('admin', 'teacher')
   );

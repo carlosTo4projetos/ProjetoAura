@@ -24,40 +24,51 @@ create table if not exists public.profiles (
 create index if not exists profiles_role_idx on public.profiles(role);
 
 -- =============================================
+-- FUNÇÃO AUXILIAR PARA RLS (Evitar Recursão Infinita)
+-- =============================================
+create or replace function public.get_user_role()
+returns user_role
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select role from public.profiles where id = auth.uid();
+$$;
+
+-- =============================================
 -- ROW LEVEL SECURITY (RLS)
 -- =============================================
 
 alter table public.profiles enable row level security;
 
 -- Usuário vê apenas o próprio perfil
+DROP POLICY IF EXISTS "profiles: usuário lê o próprio perfil" ON public.profiles;
 create policy "profiles: usuário lê o próprio perfil"
   on public.profiles for select
   using (auth.uid() = id);
 
 -- Usuário atualiza apenas o próprio perfil
+DROP POLICY IF EXISTS "profiles: usuário atualiza o próprio perfil" ON public.profiles;
 create policy "profiles: usuário atualiza o próprio perfil"
   on public.profiles for update
   using (auth.uid() = id)
   with check (auth.uid() = id);
 
 -- Admin vê todos os perfis
+DROP POLICY IF EXISTS "profiles: admin lê todos" ON public.profiles;
 create policy "profiles: admin lê todos"
   on public.profiles for select
   using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role = 'admin'
-    )
+    public.get_user_role() = 'admin'
   );
 
 -- Professor vê alunos (sem restrição de turma aqui, afinaremos na Fase 4)
+DROP POLICY IF EXISTS "profiles: professor lê alunos" ON public.profiles;
 create policy "profiles: professor lê alunos"
   on public.profiles for select
   using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role = 'teacher'
-    )
+    public.get_user_role() = 'teacher'
     and role = 'student'
   );
 
