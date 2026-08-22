@@ -53,6 +53,8 @@ const Login = () => {
     if (error) {
       if (error.message.includes('Invalid login credentials')) {
         setError('E-mail ou senha incorretos. Se ainda não possui conta, clique no botão "Criar conta de teste" ao lado.');
+      } else if (error.message.includes('Email not confirmed')) {
+        setError('Por favor, abra sua caixa de e-mail e clique no link de confirmação enviado pelo Supabase antes de entrar.');
       } else {
         setError(error.message);
       }
@@ -96,12 +98,16 @@ const Login = () => {
     });
 
     if (error) {
-      setError(error.message);
+      if (error.message.includes('User already registered')) {
+        setError('Este e-mail já está cadastrado. Basta digitar a senha e clicar em Entrar!');
+      } else {
+        setError(error.message);
+      }
     } else if (data.session) {
       // Se auto-confirmado, já loga automaticamente
       redirectByRole(data.user!.id);
     } else {
-      setMessage('Conta criada com sucesso! Tente clicar em "Entrar".');
+      setMessage('✅ Sucesso! Agora abra a caixa de entrada do seu e-mail (e a pasta Spam) e clique no link de confirmação para ativar sua conta.');
     }
     setLoading(false);
   };
